@@ -1,0 +1,140 @@
+.cart-page-title {
+    margin: auto;
+    margin-bottom: 50px;
+    width: 300px;
+    background-color: #054C73;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 25pt;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.page-cart-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cart-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 80%;
+    background-color: #eeeeee;
+    border-radius: 10px;
+}
+
+.cart-header {
+    width: 90%;
+    display: grid;
+    grid-template-columns: 25% 20% 20% 20% 15%;
+    background-color: #eeeeee;
+}
+
+.cart-header div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-item-div {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 90%;
+    background-color: #eeefff;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.cart-item-div-col-1 {}
+.cart-item-div-col-2 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cart-item-div-col-2 div {
+    width: 100%;
+}
+
+.cart-item-div div,img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-item-img {
+    width: 120px;
+    height: 180px;
+}
+
+.pay-button div {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 30px;
+}
+
+
+@media only screen and (min-width: 1024px) {
+.page-cart-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cart-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 80%;
+    background-color: #eeeeee;
+    border-radius: 10px;
+}
+
+.cart-header {
+    width: 90%;
+    display: grid;
+    grid-template-columns: 25% 20% 20% 20% 15%;
+    background-color: #eeeeee;
+}
+
+.cart-header div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-item-div {
+    display: grid;
+    grid-template-columns: 25% 20% 20% 20% 15%;
+    width: 90%;
+    background-color: #eeefff;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.cart-item-div div,img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-item-img {
+    width: 120px;
+    height: 180px;
+}
+
+.pay-button div {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 30px;
+}
+}

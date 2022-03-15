@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+  <title>Paypal App</title>
+  <!-- Integrate PayPal default button -->
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+      
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+        
+        To begin the development, run `npm start` or `yarn start`.
+        To create a production bundle, use `npm run build` or `yarn build`.
+      -->
+  <!-- <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+  <script>
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+      // Call your server to set up the transaction
+      createOrder: function (data, actions) {
+        return fetch('/demo/checkout/api/paypal/order/create/', {
+          method: 'post'
+        }).then(function (res) {
+          return res.json();
+        }).then(function (orderData) {
+          return orderData.id;
+        });
+      },
+
+      // Call your server to finalize the transaction
+      onApprove: function (data, actions) {
+        return fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
+          method: 'post'
+        }).then(function (res) {
+          return res.json();
+        }).then(function (orderData) {
+          // Three cases to handle:
+          //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+          //   (2) Other non-recoverable errors -> Show a failure message
+          //   (3) Successful transaction -> Show confirmation or thank you
+
+          // This example reads a v2/checkout/orders capture response, propagated from the server
+          // You could use a different API or structure for your 'orderData'
+          var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+
+          if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+            return actions.restart(); // Recoverable state, per:
+            // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+          }
+
+          if (errorDetail) {
+            var msg = 'Sorry, your transaction could not be processed.';
+            if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+            if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+            return alert(msg); // Show a failure message (try to avoid alerts in production environments)
+          }
+
+          // Successful capture! For demo purposes:
+          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+          var transaction = orderData.purchase_units[0].payments.captures[0];
+          alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+
+          // Replace the above to show a success message within this page, e.g.
+          // const element = document.getElementById('paypal-button-container');
+          // element.innerHTML = '';
+          // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+          // Or go to another URL:  actions.redirect('thank_you.html');
+        });
+      }
+
+    }).render('#paypal-button-container');
+  </script> -->
+</body>
+
+</html>

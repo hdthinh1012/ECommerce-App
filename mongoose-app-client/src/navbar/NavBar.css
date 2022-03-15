@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+.logo-search-cart-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-search-cart-bar a {
+    text-decoration: none;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+}
+
+.app-name{
+    font-family: 'Roboto', sans-serif;
+    font-size: 12pt;
+    font-weight: 400;
+}
+
+.nav-bar li {
+    display: inline-flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    margin: 10px;
+}
+
+.nav-bar li a{
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 10pt;
+    font-weight: 400;
+}
+
+.nav-bar li.active-navbar-item {
+    display: inline;
+    padding: 10px;
+    margin: 10px;
+    border-bottom: 2px solid #0795DF;
+}
+
+.view-cart-btn {
+    display: flex;
+    justify-content: space-evenly;
+    width: 70px;
+    height: 20px;
+    border-radius: 30px;
+    border: 1px solid black;
+    padding: 5px;
+    align-items: center;
+    text-decoration: none;
+    font-size: 8pt;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.add-to-cart-btn {
+    width: 50px;
+    height: 50px;
+    background-color: #054C73;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (min-width: 768px) {
+}
+
+@media only screen and (min-width: 1024px) {
+    .logo-search-cart-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+        margin: 20px;
+    }
+
+    .app-name{
+        font-family: 'Roboto', sans-serif;
+        font-size: 24pt;
+        font-weight: 400;
+    }
+
+    .nav-bar li {
+        display: inline;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .nav-bar li a{
+        text-decoration: none;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16pt;
+        font-weight: 400;
+    }
+
+    .nav-bar li.active {
+        display: inline;
+        padding: 10px;
+        margin: 10px;
+        border-bottom: 2px solid #0795DF;
+    }
+
+    .view-cart-btn {
+        display: flex;
+        justify-content: space-evenly;
+        width: 120px;
+        height: 40px;
+        border-radius: 30px;
+        border: 3px solid black;
+        padding: 5px;
+        align-items: center;
+        text-decoration: none;
+        font-size: 12pt;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+    }
+
+    .add-to-cart-btn {
+        width: 50px;
+        height: 50px;
+        background-color: #054C73;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
