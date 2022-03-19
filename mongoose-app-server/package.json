@@ -18,6 +18,7 @@
     "socket.io": "^4.4.1"
   },
   "scripts": {
-    "start": "set NODE_ENV=dev && nodemon app.js"
+    "start": "set NODE_ENV=dev ClientAllowedPort=3000 && nodemon app.js",
+    "deploy": "set NODE_ENV=dev ClientAllowedPort=5000 && node app.js"
   }
 }
