@@ -9,8 +9,16 @@ const clientPort = process.env.ClientAllowedPort;
 const app = express();
 app.use(function (req, res, next) { setTimeout(next, 1000) });
 app.use(express.json());
+
+const cors_origin_list = [`http://localhost:${clientPort}`, 'https://powerful-scrubland-94123.herokuapp.com/'];
 app.use(cors({
-    origin: `http://localhost:${clientPort}`,
+    origin: function (origin, callback) {
+        if (cors_origin_list.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
     credentials: true
 }));
