@@ -18,7 +18,7 @@
     "socket.io": "^4.4.1"
   },
   "scripts": {
-    "start": "set NODE_ENV=dev&& set PORT=3000&& nodemon app.js",
-    "deploy": "set NODE_ENV=production&& set PORT=3000&& node app.js"
+    "start": "set NODE_ENV=dev&& nodemon app.js",
+    "deploy": "set NODE_ENV=production&& node app.js"
   }
 }

@@ -4,8 +4,8 @@ const cors = require("cors");
 const fs = require("fs");
 
 require("dotenv").config();
-const serverPort = process.env.HttpServerPort;
-const clientPort = process.env.PORT;
+const serverPort = process.env.PORT;
+const clientPort = process.env.clientPort;
 
 const app = express();
 app.use(function (req, res, next) { setTimeout(next, 1000) });
