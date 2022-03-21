@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import axios from 'axios';
-import "./CartPage.css"
+import "./CartPage.css";
+
+const ServerURI = process.env.REACT_APP_SERVER_URL;
 
 const CartPayButton = ({ cartItems, accountInfo }) => {
     return (
@@ -9,7 +11,7 @@ const CartPayButton = ({ cartItems, accountInfo }) => {
             <PayPalScriptProvider options={{ "client-id": "AUZcPEaGuyWYI45CPzAGPSMxJejKLPV7bx0rNz6EfIjhg1M07bdiCdUF7CepEa_Cs-MhRgnw8NqMxt28" }}>
                 <PayPalButtons
                     createOrder={async (data, action) => {
-                        const response = await axios.post("http://localhost:4000/order/create-order", {
+                        const response = await axios.post(`${ServerURI}/order/create-order`, {
                             cartItems, accountInfo
                         }, {
                             withCredentials: true,
@@ -20,7 +22,7 @@ const CartPayButton = ({ cartItems, accountInfo }) => {
                     }
                     onApprove={async (data, actions) => {
                         // console.log("CartPayButton onAppove() data and actions", data, actions);
-                        const response = await axios.post("http://localhost:4000/order/capture-order", { data }, {
+                        const response = await axios.post(`${ServerURI}/order/capture-order`, { data }, {
                             withCredentials: true,
                         });
                         const what = actions.order.capture().then((details) => {
