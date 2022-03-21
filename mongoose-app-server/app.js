@@ -10,6 +10,7 @@ const clientPort = process.env.PORT;
 const app = express();
 app.use(function (req, res, next) { setTimeout(next, 1000) });
 app.use(express.json());
+app.enable('trust proxy')
 
 const cors_origin_list = [`http://localhost:${clientPort}`, 'https://immense-scrubland-27295.herokuapp.com'];
 console.log("cors_origin_list", cors_origin_list);
