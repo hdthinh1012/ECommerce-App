@@ -1,9 +1,10 @@
 const express = require("express");
 var session = require('express-session');
 const cors = require("cors");
+const fs = require("fs");
 
 require("dotenv").config();
-const serverPort = process.env.ServerPort;
+const serverPort = process.env.HttpServerPort;
 const clientPort = process.env.PORT;
 
 const app = express();
@@ -11,15 +12,27 @@ app.use(function (req, res, next) { setTimeout(next, 1000) });
 app.use(express.json());
 
 const cors_origin_list = [`http://localhost:${clientPort}`, 'https://immense-scrubland-27295.herokuapp.com'];
+console.log("cors_origin_list", cors_origin_list);
+
 app.use(cors({
-    origin: 'https://immense-scrubland-27295.herokuapp.com',
+    origin: function (origin, callback) {
+        console.log("Coming origin", origin);
+        console.log(cors_origin_list.indexOf(origin) !== -1 || !origin);
+        if (cors_origin_list.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
     credentials: true
 }));
+
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', `http://localhost:${clientPort}`);
+    res.header('Access-Control-Allow-Origin', req.get("origin"));
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('');
     next();
 });
 
@@ -32,15 +45,32 @@ const sess = {
     cookie: {
         httpOnly: false,
         secure: app.get('env') === 'production',
+        sameSite: 'none',
     }
 };
 const sessionMiddleware = session(sess);
 
 /********************************************************************************/
+
+const certOptions = {
+    key: fs.readFileSync("./certificates/server.key"),
+    cert: fs.readFileSync("./certificates/server.crt"),
+}
+
 const expressHttpServer = require("http").createServer(app);
-const io = require("socket.io")(expressHttpServer, {
+const expressHttpsServer = require("https").createServer(certOptions, app);
+
+// const io = require("socket.io")(expressHttpServer, {
+//     cors: {
+//         origin: `http://localhost:${clientPort}`,
+//         methods: ["GET", "POST"],
+//         credentials: true
+//     }
+// })
+
+const io = require("socket.io")(expressHttpsServer, {
     cors: {
-        origin: `http://localhost:${clientPort}`,
+        origin: 'https://immense-scrubland-27295.herokuapp.com',
         methods: ["GET", "POST"],
         credentials: true
     }
@@ -62,7 +92,8 @@ const mongoose = require("mongoose");
 const mongoPort = process.env.MongoDBPort;
 const mongoName = process.env.MongoDBName;
 
-const mongoUri = `mongodb://localhost:${mongoPort}/${mongoName}`;
+const mongoUri = 'mongodb+srv://hdthinh1012:thinh1012@ecommerce-app.ivqyx.mongodb.net/ECommerceAppDB?retryWrites=true&w=majority';
+// const mongoUri = `mongodb://localhost:${mongoPort}/${mongoName}`;
 const mongoOptions = {};
 mongoose.connect(mongoUri, mongoOptions, (err) => {
     if (err) {
@@ -91,6 +122,11 @@ app.use("/chat", chatRouter);
 
 /********************************************************************************/
 
-expressHttpServer.listen(serverPort, () => {
-    console.log(`Http Server listening at http://localhost:${serverPort}`)
+// expressHttpServer.listen(serverPort, () => {
+//     console.log(`Http Server listening at http://localhost:${serverPort}`)
+// });
+
+expressHttpsServer.listen(serverPort, () => {
+    console.log(`Https Server listening at https://localhost:${serverPort}`)
 });
+

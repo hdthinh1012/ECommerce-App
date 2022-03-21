@@ -17,6 +17,7 @@ const login = async (req, res) => {
                 currentUser.password = "";;
                 req.session.userInfo = currentUser;
                 req.session.save((err) => { });
+                console.log("SessionStore after login", req.sessionStore.sessions);
                 res.status(200).send(JSON.stringify({
                     message: `Login success account`,
                     session: JSON.stringify(req.session),
