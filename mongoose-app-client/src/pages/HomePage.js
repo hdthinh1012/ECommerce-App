@@ -5,10 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchLogoutAccount } from './account/accountSlice';
 
-const ServerPort = process.env.REACT_APP_SERVER_PORT;
-const ServerURL = process.env.REACT_APP_SERVER_URL;
-const ServerURI = `${ServerURL}:${ServerPort}`;
-
 const logout = async (navigate, dispatch, setCookie) => {
     await dispatch(fetchLogoutAccount());
     setCookie("uniqueSessionID", null, { path: '/' });

@@ -19,9 +19,7 @@ import axios from "axios";
 
 import { updateAccount } from "./pages/account/accountSlice";
 
-const ServerPort = process.env.REACT_APP_SERVER_PORT;
-const ServerURL = process.env.REACT_APP_SERVER_URL;
-const ServerURI = `${ServerURL}:${ServerPort}`;
+const ServerURI = process.env.REACT_APP_SERVER_URL;
 
 const App = () => {
   const [cookies, setCookie, getCookie] = useCookies(['accountInfo', 'uniqueSessionID']);

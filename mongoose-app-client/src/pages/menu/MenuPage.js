@@ -5,9 +5,7 @@ import "./MenuPage.css";
 
 import MenuItem from './MenuItem';
 
-const ServerPort = process.env.REACT_APP_SERVER_PORT;
-const ServerURL = process.env.REACT_APP_SERVER_URL;
-const ServerURI = `${ServerURL}:${ServerPort}`;
+const ServerURI = process.env.REACT_APP_SERVER_URL;
 
 const MenuPage = (props) => {
     // const [menu, setMenu] = useState([]);

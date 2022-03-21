@@ -1,9 +1,7 @@
 import { io } from "socket.io-client";
 import { initiateEventListeners } from "./chatSlice";
 
-const ServerPort = process.env.REACT_APP_SERVER_PORT;
-const ServerURL = process.env.REACT_APP_SERVER_URL;
-const ServerURI = `${ServerURL}:${ServerPort}`;
+const ServerURI = process.env.REACT_APP_SERVER_URL;
 
 export const createSocket = (cookies) => {
     const socket = io(`${ServerURI}`, {

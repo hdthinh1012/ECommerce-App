@@ -8,9 +8,7 @@ import { fetchLoginAccount } from '../account/accountSlice';
 
 import "./LoginPage.css"
 
-const ServerPort = process.env.REACT_APP_SERVER_PORT;
-const ServerURL = process.env.REACT_APP_SERVER_URL;
-const ServerURI = `${ServerURL}:${ServerPort}`;
+const ServerURI = process.env.REACT_APP_SERVER_URL;
 
 const submit = async (event, formData, navigate, dispatch, setCookie) => {
     event.preventDefault();
