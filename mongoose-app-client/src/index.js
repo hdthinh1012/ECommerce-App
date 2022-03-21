@@ -20,3 +20,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+// "start": "set HTTPS=true&& set SSL_CRT_FILE=./certificates/server.crt&& set SSL_KEY_FILE=./certificates/server.key&& react-scripts start",
