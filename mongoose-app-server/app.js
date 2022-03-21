@@ -75,7 +75,7 @@ const expressHttpServer = require("http").createServer(app);
 /**
  * Remote use http
  */
-const io = require("socket.io")(expressHttpsServer, {
+const io = require("socket.io")(expressHttpServer, {
     cors: {
         origin: 'https://immense-scrubland-27295.herokuapp.com',
         methods: ["GET", "POST"],
