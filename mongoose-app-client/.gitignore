@@ -21,3 +21,11 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# CA
+rootCA.key
+rootCA.pem
+rootCA.srl
+v3.ext
+server.csr
+server.csr.cnf
