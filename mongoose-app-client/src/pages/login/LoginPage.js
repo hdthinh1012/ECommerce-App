@@ -21,6 +21,7 @@ const submit = async (event, formData, navigate, dispatch, setCookie) => {
     const response = await axios.get(`${ServerURI}/session`, {
         withCredentials: true, /* If uniqueSessionID exist in cookies, send it or else send random non-exist sessionID */
     });
+    console.log("after login session check response:" , response);
     const { sessionID, accountInfo } = response.data;
     if (sessionID) {
         setCookie("accountInfo", JSON.stringify(accountInfo.userInfo), { path: '/' });

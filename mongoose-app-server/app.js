@@ -12,15 +12,7 @@ app.use(express.json());
 
 const cors_origin_list = [`http://localhost:${clientPort}`, 'https://immense-scrubland-27295.herokuapp.com'];
 app.use(cors({
-    origin: function (origin, callback) {
-        console.log("Coming origin", origin);
-        console.log(cors_origin_list.indexOf(origin) !== -1 || !origin);
-        if (cors_origin_list.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: 'https://immense-scrubland-27295.herokuapp.com',
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
     credentials: true
 }));

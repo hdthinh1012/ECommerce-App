@@ -57,7 +57,6 @@ export const { updateAccount } = accountSlice.actions;
 
 export const fetchLoginAccount = createAsyncThunk('account/fetchLoginAccount', async (formData, thunkAPI) => {
     try {
-        console.log("login in here");
         const response = await axios.post(`${ServerURI}/auth/login`, formData, {
             withCredentials: true /** withCredential automatically setCookie(uniqueSessionID, "some string value") */
         });
