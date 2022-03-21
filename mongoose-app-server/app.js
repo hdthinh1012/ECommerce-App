@@ -59,23 +59,23 @@ const certOptions = {
 }
 
 const expressHttpServer = require("http").createServer(app);
-const expressHttpsServer = require("https").createServer(certOptions, app);
+// const expressHttpsServer = require("https").createServer(certOptions, app);
 
-// const io = require("socket.io")(expressHttpServer, {
-//     cors: {
-//         origin: `http://localhost:${clientPort}`,
-//         methods: ["GET", "POST"],
-//         credentials: true
-//     }
-// })
-
-const io = require("socket.io")(expressHttpsServer, {
+const io = require("socket.io")(expressHttpServer, {
     cors: {
-        origin: 'https://immense-scrubland-27295.herokuapp.com',
+        origin: `http://localhost:${clientPort}`,
         methods: ["GET", "POST"],
         credentials: true
     }
 })
+
+// const io = require("socket.io")(expressHttpsServer, {
+//     cors: {
+//         origin: 'https://immense-scrubland-27295.herokuapp.com',
+//         methods: ["GET", "POST"],
+//         credentials: true
+//     }
+// })
 
 io.use((socket, next) => {
     sessionMiddleware(socket.request, {}, next);
@@ -123,11 +123,11 @@ app.use("/chat", chatRouter);
 
 /********************************************************************************/
 
-// expressHttpServer.listen(serverPort, () => {
-//     console.log(`Http Server listening at http://localhost:${serverPort}`)
-// });
-
-expressHttpsServer.listen(serverPort, () => {
-    console.log(`Https Server listening at https://localhost:${serverPort}`)
+expressHttpServer.listen(serverPort, () => {
+    console.log(`Http Server listening at http://localhost:${serverPort}`)
 });
+
+// expressHttpsServer.listen(serverPort, () => {
+//     console.log(`Https Server listening at https://localhost:${serverPort}`)
+// });
 
