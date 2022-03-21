@@ -4,15 +4,17 @@ const cors = require("cors");
 
 require("dotenv").config();
 const serverPort = process.env.ServerPort;
-const clientPort = process.env.ClientAllowedPort;
+const clientPort = process.env.PORT;
 
 const app = express();
 app.use(function (req, res, next) { setTimeout(next, 1000) });
 app.use(express.json());
 
-const cors_origin_list = [`http://localhost:${clientPort}`, 'https://powerful-scrubland-94123.herokuapp.com/'];
+const cors_origin_list = [`http://localhost:${clientPort}`, 'https://immense-scrubland-27295.herokuapp.com'];
 app.use(cors({
     origin: function (origin, callback) {
+        console.log("Coming origin", origin);
+        console.log(cors_origin_list.indexOf(origin) !== -1 || !origin);
         if (cors_origin_list.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
