@@ -20,11 +20,15 @@ export const createSocket = (cookies) => {
 export class SocketClient {
     constructor(cookies, dispatch) {
         this.socket = createSocket(cookies);
+        this.socket.onAny((event, ...args) => {
+            console.log(event, args);
+        });
+        console.log("SocketClient constructor");
         dispatch(initiateEventListeners(this.socket));
     }
-
     connect() {
         this.socket.connect();
+        console.log("this.socket after connect", this.socket);
         return new Promise((resolve, reject) => {
             this.socket.on("connect", () => {
                 resolve();
@@ -34,7 +38,6 @@ export class SocketClient {
             })
         })
     }
-
     disconnect() {
         return new Promise((resolve, reject) => {
             try {
@@ -46,7 +49,6 @@ export class SocketClient {
             }
         })
     }
-
     emit(event, data) {
         return new Promise((resolve, reject) => {
             if (!this.socket) {
@@ -61,12 +63,9 @@ export class SocketClient {
             })
         })
     }
-
-
     on(event, handler) {
         return new Promise((resolve, reject) => {
             if (!this.socket) { return reject("No socket connection") }
-
             this.socket.on(event, handler);
             resolve();
         })

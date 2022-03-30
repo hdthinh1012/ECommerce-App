@@ -1,4 +1,7 @@
-import { createAsyncThunk, createSelector, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createEntityAdapter, createSlice, useSelector, current } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const ServerURI = process.env.REACT_APP_SERVER_URL;
 
 const chatAdapter = createEntityAdapter();
 
@@ -7,8 +10,9 @@ const initialState = chatAdapter.getInitialState({
     chatSocketId: null,
     socketOwnerId: null,
     socketSessionId: null,
-    currentUsers: [],
-    allMessagesPerUsers: [],
+    onlineUsers: [],
+    currentChatUser: null,
+    allRelatedChatBox: [],
 });
 
 /**
@@ -23,32 +27,61 @@ const chatSlice = createSlice({
             console.log("onlineUsersChatSocketEvent reducer action", action);
         },
         initiateCurrentOnlineUsers(state, action) {
-            const currentUsersList = Object.values(action.payload).map(session => session.userInfo);
-            state.currentUsers = currentUsersList;
+            let onlineUsersList = action.payload.map(session => session.userInfo);
+            onlineUsersList = onlineUsersList.filter(onlineUserItem => {
+                console.log("current(state).socketOwnerId", current(state).socketOwnerId);
+                console.log("onlineUserItem", onlineUserItem);
+                return onlineUserItem._id !== current(state).socketOwnerId;
+            });
+            state.onlineUsers = onlineUsersList;
+
+            /**
+             * Test 
+             */
+
+            state.currentChatUser = onlineUsersList[0];
+        },
+        initiateAllRelatedChatBox(state, action) {
+            const allRelatedChatBox = action.payload;
+            state.allRelatedChatBox = allRelatedChatBox;
         },
         addNewUserOnline(state, action) {
             const newUserInfo = action.payload;
             const isUserExisted = false;
-            state.currentUsers.forEach(user => {
+            state.onlineUsers.forEach(user => {
                 if (user._id === newUserInfo._id) {
-                    // console.log("addNewOnlineUser reducer: user already online");
                     isUserExisted = true;
                 }
             })
-            // console.log("addNewOnlineUser reducer: new user online", newUserInfo);
             if (!isUserExisted) {
-                state.currentUsers.push(newUserInfo);
+                state.onlineUsers.push(newUserInfo);
             }
         },
         removeNowOfflineUser(state, action) {
             const { userId } = action.payload;
-            console.log("userId", userId);
-            const newCurrentUsers = state.currentUsers.filter(user => {
-                console.log("user._id", user._id);
-                console.log("comparison", user._id !== userId);
+            const newOnlineUsers = state.onlineUsers.filter(user => {
                 return user._id !== userId;
             });
-            state.currentUsers = newCurrentUsers;
+            state.onlineUsers = newOnlineUsers;
+        },
+        updateNewMessage(state, action) {
+            const { fromId, toId, idlist, messageContent } = action.payload;
+            const newMessage = { toId, fromId, messageContent };
+            let newAllRelatedChatBox = [...current(state).allRelatedChatBox];
+            newAllRelatedChatBox = newAllRelatedChatBox.map((chatBoxItem) => {
+                if (JSON.stringify(chatBoxItem.idlist) === JSON.stringify(idlist)) {
+                    console.log(newMessage);
+                    let messages = [...chatBoxItem.messages];
+                    messages.push(newMessage);
+                    return {
+                        ...chatBoxItem,
+                        messages
+                    };
+                } else {
+                    return chatBoxItem;
+                }
+            })
+            state.allRelatedChatBox = [...newAllRelatedChatBox];
         }
     },
     extraReducers: builder => {
@@ -62,25 +95,34 @@ const chatSlice = createSlice({
                 state.socketOwnerId = action.payload.socketOwnerId;
                 state.socketSessionId = action.payload.socketSessionId;
             })
+            .addCase(initiateChatSocket.rejected, (error) => {
 
-            .addCase(initiateEventListeners.fulfilled, (state, action) => {
-                console.log("All socket event listeners registered reducer.fulfilled");
             })
 
             .addCase(destroyChatSocket.fulfilled, (state, action) => {
-                console.log("destroyChatSocket.fulfilled reducer", action);
                 state.status = "disconnected";
                 state.chatSocketId = null;
                 state.socketOwnerId = null;
                 state.socketSessionId = null;
             })
-            .addCase(destroyChatSocket.rejected, (state, action) => {
-                console.log("destroyChatSocket.rejected reducer", action);
+
+            .addCase(changeCurrentChatUser.fulfilled, (state, action) => {
+                const { newChatUser, newChatBox } = action.payload;
+                state.currentChatUser = newChatUser;
+                let isChatBoxExisted = false;
+                state.allRelatedChatBox.forEach(chatBoxItem => {
+                    if (JSON.stringify(chatBoxItem.idlist) === JSON.stringify(newChatBox.idlist)) {
+                        isChatBoxExisted = true;
+                    }
+                })
+                if (!isChatBoxExisted) {
+                    state.allRelatedChatBox.push(newChatBox);
+                }
             })
     }
 })
 
-export const { onlineUsersChatSocketEvent, initiateCurrentOnlineUsers, addNewUserOnline, removeNowOfflineUser } = chatSlice.actions;
+export const { onlineUsersChatSocketEvent, initiateCurrentOnlineUsers, initiateAllRelatedChatBox, addNewUserOnline, removeNowOfflineUser, updateNewMessage } = chatSlice.actions;
 export default chatSlice.reducer;
 
 /**
@@ -91,6 +133,7 @@ export const initiateChatSocket = createAsyncThunk('chat/initiateChatSocket', as
     const { uniqueSessionId, userId } = socket.socket.auth;
     try {
         await socket.connect();
+        console.log("initiateChatSocket");
         return { chatSocketId: socket.id, socketOwnerId: userId, socketSessionId: uniqueSessionId };
     }
     catch (error) {
@@ -106,19 +149,21 @@ export const initiateChatSocket = createAsyncThunk('chat/initiateChatSocket', as
  * because no event listener registered yet, the client socket have just connected 
  */
 export const initiateEventListeners = createAsyncThunk('char/initiateEventListeners', async (socket, thunkAPI) => {
-    await socket.on("current online users", (onlineUsersSessionStore) => {
-        console.log("response 1");
-        console.log("initiateEventListeners redux Middleware Thunk eventListener onlineCurrentUsers", onlineUsersSessionStore);
+    console.log("Initiate Event Listener thunk called");
+
+    await socket.on("current online users", ({ allSocketSession: onlineUsersSessionStore, allRelatedChatBox }) => {
         thunkAPI.dispatch(initiateCurrentOnlineUsers(onlineUsersSessionStore));
+        thunkAPI.dispatch(initiateAllRelatedChatBox(allRelatedChatBox));
     })
-    /**
-     * Register more event listener with await socket.on(...) below here
-     */
     await socket.on("user connected", (userInfo) => {
         thunkAPI.dispatch(addNewUserOnline(userInfo));
     });
     await socket.on("user disconnected", (info) => {
         thunkAPI.dispatch(removeNowOfflineUser(info));
+    })
+    await socket.on("private message", (data) => {
+        console.log("client receive private message event, info", data);
+        thunkAPI.dispatch(updateNewMessage(data));
     })
 
     return;
@@ -134,8 +179,33 @@ export const destroyChatSocket = createAsyncThunk('chat/destroyChatSocket', asyn
             return {};
         }
         catch (error) {
-            console.log("destroyChatSocket Thunk socket.socket disconnect error", error);
             return thunkAPI.rejectWithValue(error);
         }
+    }
+})
+
+export const changeCurrentChatUser = createAsyncThunk('chat/changeCurrentChatUser', async ({ newChatUser, accountUser }, thunkAPI) => {
+    try {
+        const response = await axios.post(`${ServerURI}/chat/chatbox/get`, {
+            idlist: [newChatUser._id, accountUser._id]
+        }, {
+            withCredentials: true
+        });
+        return {
+            newChatUser,
+            newChatBox: response.data
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
+    }
+})
+
+export const emitMessage = createAsyncThunk('chat/emitMessage', async ({ idlist, messageContent, fromId, toId, socket }, thunkAPI) => {
+    try {
+        await socket.emit('private message', {
+            idlist, fromId, toId, messageContent
+        });
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error);
     }
 })

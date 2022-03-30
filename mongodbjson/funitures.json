@@ -1,0 +1,37 @@
+[{
+  "_id": {
+    "$oid": "620fc759d5ac692d831bc322"
+  },
+  "name": "Grey Texture Sofa",
+  "categoryId": "620fc759d5ac692d831bc31e",
+  "price": 30,
+  "imageUrl": "https://cdn.shopify.com/s/files/1/0258/1394/2371/products/buy-nomad-sofa-online-freedomtree-in-28013910851758_480x.jpg?v=1636223355",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "620fc759d5ac692d831bc323"
+  },
+  "name": "Oval Dinner Table",
+  "categoryId": "620fc759d5ac692d831bc31f",
+  "price": 20,
+  "imageUrl": "https://cdn.shopify.com/s/files/1/0103/2042/products/them-chair-black-black-piper-pill-pedestal-large-black-white-cl-lr_480x.jpg?v=1619052608",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "620fc759d5ac692d831bc324"
+  },
+  "name": "White Living Room Lamb",
+  "categoryId": "620fc759d5ac692d831bc320",
+  "price": 15,
+  "imageUrl": "https://cdn.pixabay.com/photo/2017/08/06/01/49/table-2587598_960_720.jpg",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "620fc759d5ac692d831bc325"
+  },
+  "name": "Soft Chair",
+  "categoryId": "620fc759d5ac692d831bc321",
+  "price": 25,
+  "imageUrl": "https://i.pinimg.com/originals/1a/7b/96/1a7b964b2fef36ea8ec4adf9be1b25e6.jpg",
+  "__v": 0
+}]

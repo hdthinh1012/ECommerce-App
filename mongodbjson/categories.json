@@ -1,0 +1,25 @@
+[{
+  "_id": {
+    "$oid": "620fc759d5ac692d831bc31e"
+  },
+  "name": "Sofa",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "620fc759d5ac692d831bc31f"
+  },
+  "name": "Table",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "620fc759d5ac692d831bc320"
+  },
+  "name": "Lamb",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "620fc759d5ac692d831bc321"
+  },
+  "name": "Chair",
+  "__v": 0
+}]

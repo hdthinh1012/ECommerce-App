@@ -1,42 +1,70 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
 import { SocketClient } from "./SocketClient";
-import { initiateChatSocket, destroyChatSocket } from "./chatSlice";
+import { initiateChatSocket, destroyChatSocket, changeCurrentChatUser, emitMessage } from "./chatSlice";
 
 import { IoMdSend } from "react-icons/io";
 import { IconContext } from "react-icons";
 import "./ChatPage.css";
 
+let socket = {};
+
 const ChatPage = (props) => {
     const [cookies] = useCookies(['accountInfo', 'uniqueSessionID']);
     const dispatch = useDispatch();
-    const accountInfo = useSelector(state => state.account);
-    const chatSlice = useSelector(state => state.chat);
-    const isAccountLoggedIn = accountInfo["status"] === "member";
-    const nameList = [{ id: "1", name: "hdthinh01" }, { id: "2", name: "thinh.huynhduc1012" }, { id: "3", name: "hdthinh02" }];
+    const accountUser = useSelector(state => state.account);
+    const isAccountLoggedIn = accountUser["status"] === "member";
+
+    const chatPageData = useSelector(state => state.chat);
+    const { onlineUsers, currentChatUser, allRelatedChatBox } = chatPageData;
+
     const messageList = [
         { id: "1", self: false, content: "Hello employee", time: "3:08PM 13th March 2022" },
         { id: "2", self: true, content: "What category would you like to know about ?", time: "3:10PM 13th March 2022" },
-        { id: "3", self: false, content: "Hello employee", time: "3:08PM 13th March 2022" },
-        { id: "4", self: true, content: "What category would you like to know about ?", time: "3:10PM 13th March 2022" },
     ];
+    let currentChatBox = null;
+    allRelatedChatBox.forEach(chatBoxItem => {
+        if (JSON.stringify(chatBoxItem.idlist) === JSON.stringify([currentChatUser._id, accountUser._id].sort())) {
+            currentChatBox = chatBoxItem;
+        }
+    })
 
-    const sleep = (ms) => {
-        return new Promise(resolve => setTimeout(resolve, ms));
+    /**
+     * - Trulu create new socket: socket = io(...)
+     * - Dispatch 'initiateEventListeners' event
+     */
+
+    const handleChangeChatUser = (newChatUser) => {
+        dispatch(changeCurrentChatUser({ newChatUser, accountUser, socket }));
     }
 
     useEffect(() => {
-        const socket = new SocketClient(cookies, dispatch);
         if (isAccountLoggedIn) {
+            socket = new SocketClient(cookies, dispatch);
+
+            /**
+             * - Calling await socket.connect: this.socket.connect()
+             */
             dispatch(initiateChatSocket(socket));
-            console.log("ChatPage useEffect chatSlice.status", chatSlice.status);
             return () => {
-                console.log("useEffect unsubscibe socket");
                 dispatch(destroyChatSocket(socket))
             };
         }
     }, []);
+
+    const handleMessageSend = async (event) => {
+        event.preventDefault();
+        const messageContent = event.target.message.value;
+        const { currentChatUser } = chatPageData;
+        let idlist = [currentChatUser._id, accountUser._id].sort();
+
+        dispatch(emitMessage({
+            fromId: accountUser._id,
+            toId: currentChatUser._id,
+            idlist, messageContent, socket
+        }));
+    }
 
     if (isAccountLoggedIn) {
         return (<div>
@@ -48,52 +76,50 @@ const ChatPage = (props) => {
                     <div className="chat-page-search-user-bar">
                         <input type="text" className="chat-page-search-user-input" placeholder="Search Username" />
                     </div>
-                    {nameList.map(nameItem => {
+                    {onlineUsers.map(onlineUser => {
                         return (
-                            <div key={nameItem.id} className="chat-user-item">
-                                <div>{nameItem.name}</div>
+                            <div key={onlineUser._id} onClick={() => handleChangeChatUser(onlineUser)} className="chat-user-item">
+                                <div>{onlineUser.username} {onlineUser.username === accountUser.username ? "(You)" : ""}</div>
                                 <div className="chat-user-status-active"></div>
                             </div>
                         )
                     })}
-                    <div className="chat-user-item chat-user-item-active">
-                        <div>YourSelf</div>
-                        <div className="chat-user-status-active"></div>
-                    </div>
 
                 </div>
                 <div className="chat-page-message-box">
                     <div className="chat-page-user-avatar-bar">
                         <div className="chat-user-status-active"></div>
                         <div className="chat-user-avatar">
-                            YourSelf
+                            {chatPageData.currentChatUser ? (`${chatPageData.currentChatUser.username} ${chatPageData.currentChatUser.username === accountUser.username ? "(You)" : "Choose someone"}`) : ''}
                         </div>
                     </div>
                     <div className="chat-message-list">
-                        {messageList.map(messageItem => {
-                            if (messageItem.self) return (
-                                <div key={messageItem.id} className="chat-message-line-self">
-                                    <div className="chat-message-item-self">{messageItem.content}</div>
+                        {currentChatBox && currentChatBox.messages.map(messageItem => {
+                            if (messageItem.fromId === accountUser._id) return (
+                                <div key={messageItem._id} className="chat-message-line-self">
+                                    <div className="chat-message-item-self">{messageItem.messageContent}</div>
                                     <div className="chat-message-item-time-self">{messageItem.time}</div>
                                 </div>
                             )
                             return (
-                                <div key={messageItem.id} className="chat-message-line-not-self">
-                                    <div className="chat-message-item-not-self">{messageItem.content}</div>
+                                <div key={messageItem._id} className="chat-message-line-not-self">
+                                    <div className="chat-message-item-not-self">{messageItem.messageContent}</div>
                                     <div className="chat-message-item-time-not-self">{messageItem.time}</div>
                                 </div>
                             )
                         })}
                     </div>
                     <div className="chat-input-div">
-                        <input type="text" className="chat-input-box" placeholder="Write your message" />
+                        <form onSubmit={(event) => handleMessageSend(event)}>
+                            <input type="text" name="message" className="chat-input-box" placeholder="Write your message" />
+                        </form>
                         <IconContext.Provider value={{ className: "send-icon" }}>
                             <IoMdSend />
                         </IconContext.Provider>
                     </div>
                 </div>
             </div>
-        </div>)
+        </div >)
     }
     else {
         return <div className='pay-button'><h1>Please Login Before Contact Our Support</h1></div>

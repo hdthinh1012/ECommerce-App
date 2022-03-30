@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "61d9dbf21cb489cd732cc573"
+  },
+  "username": "hdthinh01",
+  "email": "hdthinh01@gmail.com",
+  "password": "$2b$10$MTW0ML2HKEUaVs./9AUqd.OBs5KiPucJl8Pn9I29SBFkpN1bVVUCe",
+  "isCertified": false,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61dcf61341b3e8ba9faec083"
+  },
+  "username": "thinh.huynhduc1012",
+  "email": "thinh.huynhduc1012@hcmut.edu.vn",
+  "password": "$2b$10$DfKUjcZamzRWE.pugWbkoOgTFBvWgDrMLFCOe1V17CpsyarRuwECK",
+  "isCertified": false,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61dd09466ebb2e6fbce34cd1"
+  },
+  "username": "hdthinh1012",
+  "email": "hdthinh1012@gmail.com",
+  "password": "$2b$10$pntiy1TGI5rfMv5wjEr50eZrEAqsnUD21fvKPHztjh52iLQ.naJdS",
+  "isCertified": false,
+  "__v": 0
+}]
