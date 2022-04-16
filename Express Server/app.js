@@ -64,20 +64,20 @@ const expressHttpsServer = require("https").createServer(certOptions, app);
 /**
  * Local use https
  */
-const io = require("socket.io")(expressHttpsServer, {
-    cors: {
-        origin: `https://localhost:${clientPort}`,
-        methods: ["GET", "POST"],
-        credentials: true
-    }
-})
 // const io = require("socket.io")(expressHttpsServer, {
 //     cors: {
-//         origin: 'https://immense-scrubland-27295.herokuapp.com',
+//         origin: `https://localhost:${clientPort}`,
 //         methods: ["GET", "POST"],
 //         credentials: true
 //     }
 // })
+const io = require("socket.io")(expressHttpsServer, {
+    cors: {
+        origin: 'https://immense-scrubland-27295.herokuapp.com',
+        methods: ["GET", "POST"],
+        credentials: true
+    }
+})
 
 /**
  * Remote use http

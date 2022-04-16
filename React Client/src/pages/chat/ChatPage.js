@@ -25,6 +25,8 @@ const ChatPage = (props) => {
     ];
     let currentChatBox = null;
     allRelatedChatBox.forEach(chatBoxItem => {
+        console.log("currentChatUser._id", currentChatUser);
+        console.log("accountUser._id", accountUser);
         if (JSON.stringify(chatBoxItem.idlist) === JSON.stringify([currentChatUser._id, accountUser._id].sort())) {
             currentChatBox = chatBoxItem;
         }
