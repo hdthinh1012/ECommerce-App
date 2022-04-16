@@ -12,7 +12,7 @@ Simple monolothic web application provides thorough eCommerce shopping process f
 ### Authentication and Authorization
 ***
 * Authentication
-Simple password and username registeration and login.
+Simple password and username registeration and login.  
 Session-based authentication is used to recognized for logged in user, have not handled memory leaks.
 * Authorization
 Currently using simple role-based access control
@@ -24,22 +24,22 @@ Currently using simple role-based access control
 
 ### Security
 ***
-* Password is hashed with salt before storing to databse
+* Password is hashed with salt before storing to databse  
 * HTTPS with Certificate connection is currently developed
 
 ### Database Management System
 ***
-**Database**: MongoDB
-**Connecting Modules**: Mongoose
+**Database**: MongoDB  
+**Connecting Modules**: Mongoose  
 **Current Collection**: User, Category, Funiture, Order, ChatBox
 
 ### Frontend Development
 ***
-**Framework of choice**: React, using function component with hooks useState, useEffect, useSomething,...
-**Global state management tools**: Redux
-**Cookie library**: react-cookie
-**Language of choice**: Javascript
-**Styling language** Pure CSS, not using framework yet
+**Framework of choice**: React, using function component with hooks useState, useEffect, useSomething,...  
+**Global state management tools**: Redux  
+**Cookie library**: react-cookie  
+**Language of choice**: Javascript  
+**Styling language** Pure CSS, not using framework yet  
 **Library and modules**: 
 * redux-toolkit: Redux-recommened library module, support easy-to-comprehend abstracted way to write asynchronous middleware, and mutable state command
 * react-cookie: React prominent library for handle cookies
@@ -52,9 +52,9 @@ Currently using simple role-based access control
 
 ### Backend Development
 ***
-**Framework of choice**: Express
-**Authentication and authorization**: Session-based, Email-password
-**Library and modules**: 
+**Framework of choice**: Express  
+**Authentication and authorization**: Session-based, Email-password  
+**Library and modules**:   
 * mongoose: Connect to MongoDB using SDK to create schema, query or modify databases
 * express-session: Express framerork default tools to handle logged-in user session, using set-cookie to automatically modify client cookies, having memory leaks occur
 * cors: handle cross-origin reference authorization
