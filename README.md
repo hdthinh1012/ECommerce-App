@@ -62,6 +62,11 @@ Currently using simple role-based access control
 
 ## Installment Guide
 1. Change to "React Client" directory, install package and run **yarn start**. An recommened alternative is accessing to this [deployment link](https://immense-scrubland-27295.herokuapp.com/) to act as HTTPS Client if not knowing how to create self-signed certificate for client localhost yet
-2. Change to "Express Server" directory, install package and run **yarn start** for production mode with nodemon flexibility, the code will be in HTTPS version for testing secured connection. An not so recommended is changing front-end .env SERVER URL to server deployment link *https://powerful-scrubland-94123.herokuapp.com*.  
+2. Change to "Express Server" directory, install package and run **yarn start** for production mode with nodemon flexibility, the code will be in HTTPS version for testing secured connection. A not-so-recommended alternative is changing front-end .env SERVER URL to server deployment link *https://powerful-scrubland-94123.herokuapp.com*.  
 ..*Note*: Since the CORS settings is set to allow different origin only (HTTPS demand), so the recommend setting is running heroku client with localhost:4000 server.
 3. Import Init MongoDB Databases, for Cloud Mongo DB using [Atlas](https://www.mongodb.com/cloud)
+
+### PayPal Integration Guide
+Login to PayPal Developer Page and access to *https://developer.paypal.com/developer/applications* for getting Client-ID and Secret from the business account to get Access Token from oAuth 2.0 protocol.
+
+Application can integrated with one PayPal business account at a time only.
