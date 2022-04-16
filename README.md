@@ -62,6 +62,6 @@ Currently using simple role-based access control
 
 ## Installment Guide
 1. Change to "React Client" directory, install package and run **yarn start**. An recommened alternative is accessing to this [deployment link](https://immense-scrubland-27295.herokuapp.com/) to act as HTTPS Client if not knowing how to create self-signed certificate for client localhost yet
-2. Change to "Express Server" directory, install package and run **yarn start** for production mode with nodemon flexibility, the code will be in HTTPS version for testing secured connection
+2. Change to "Express Server" directory, install package and run **yarn start** for production mode with nodemon flexibility, the code will be in HTTPS version for testing secured connection  
 ..*Note*: Since the CORS settings is set to allow different origin only (HTTPS demand), so the recommend setting is running heroku client with localhost:4000 server.
 3. Import Init MongoDB Databases, for Cloud Mongo DB using [Atlas](https://www.mongodb.com/cloud)
