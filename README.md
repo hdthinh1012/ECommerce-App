@@ -1,7 +1,5 @@
 # ECommerce-App
-***
 ## Description 
-***
 Simple monolothic web application provides thorough eCommerce shopping process for customer. Features provided contains:
 * Simple Menu Page
 * Built-in cart with add or remove items actions
@@ -11,8 +9,8 @@ Simple monolothic web application provides thorough eCommerce shopping process f
 * Chat system between online logged-in customers.
 
 ## Technical Choice
-***
 ### Authentication and Authorization
+***
 * Authentication
 Simple password and username registeration and login.
 Session-based authentication is used to recognized for logged in user, have not handled memory leaks.
@@ -25,15 +23,18 @@ Currently using simple role-based access control
 |Member |Registered Account, Login Successfully| All Guest Permission + Create and capture orde, Chatting to other logged in members|
 
 ### Security
+***
 * Password is hashed with salt before storing to databse
 * HTTPS with Certificate connection is currently developed
 
 ### Database Management System
+***
 **Database**: MongoDB
 **Connecting Modules**: Mongoose
 **Current Collection**: User, Category, Funiture, Order, ChatBox
 
 ### Frontend Development
+***
 **Framework of choice**: React, using function component with hooks useState, useEffect, useSomething,...
 **Global state management tools**: Redux
 **Cookie library**: react-cookie
@@ -50,6 +51,7 @@ Currently using simple role-based access control
  *Note: server APIs can be PayPal directly or built-in application*
 
 ### Backend Development
+***
 **Framework of choice**: Express
 **Authentication and authorization**: Session-based, Email-password
 **Library and modules**: 
@@ -59,7 +61,6 @@ Currently using simple role-based access control
 * socket-io: server library for socketIO, handle abstracted WebSocket connection
 
 ## Installment Guide
-***
 1. Change to "React Client" directory, install package and run **yarn start**. An recommened alternative is accessing to this [deployment link](https://immense-scrubland-27295.herokuapp.com/) to act as HTTPS Client if not knowing how to create self-signed certificate for client localhost yet
 2. Change to "Express Server" directory, install package and run **yarn start** for production mode with nodemon flexibility, the code will be in HTTPS version for testing secured connection
 ..*Note*: Since the CORS settings is set to allow different origin only (HTTPS demand), so the recommend setting is running heroku client with localhost:4000 server.
