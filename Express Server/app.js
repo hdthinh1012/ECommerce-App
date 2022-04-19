@@ -58,8 +58,8 @@ const certOptions = {
     cert: fs.readFileSync("./certificates/server.crt"),
 }
 
-// const expressHttpServer = require("http").createServer(app);
-const expressHttpsServer = require("https").createServer(certOptions, app);
+const expressHttpServer = require("http").createServer(app);
+// const expressHttpsServer = require("https").createServer(certOptions, app);
 
 /**
  * Local use https
@@ -71,24 +71,24 @@ const expressHttpsServer = require("https").createServer(certOptions, app);
 //         credentials: true
 //     }
 // })
-const io = require("socket.io")(expressHttpsServer, {
-    cors: {
-        origin: 'https://immense-scrubland-27295.herokuapp.com',
-        methods: ["GET", "POST"],
-        credentials: true
-    }
-})
-
-/**
- * Remote use http
- */
-// const io = require("socket.io")(expressHttpServer, {
+// const io = require("socket.io")(expressHttpsServer, {
 //     cors: {
 //         origin: 'https://immense-scrubland-27295.herokuapp.com',
 //         methods: ["GET", "POST"],
 //         credentials: true
 //     }
 // })
+
+/**
+ * Remote use http
+ */
+const io = require("socket.io")(expressHttpServer, {
+    cors: {
+        origin: 'https://immense-scrubland-27295.herokuapp.com',
+        methods: ["GET", "POST"],
+        credentials: true
+    }
+})
 
 io.use((socket, next) => {
     sessionMiddleware(socket.request, {}, next);
@@ -106,8 +106,9 @@ const mongoose = require("mongoose");
 const mongoPort = process.env.MongoDBPort;
 const mongoName = process.env.MongoDBName;
 
-// const mongoUri = 'mongodb+srv://hdthinh1012:thinh1012@ecommerce-app.ivqyx.mongodb.net/ECommerceAppDB?retryWrites=true&w=majority';
-const mongoUri = `mongodb://localhost:${mongoPort}/${mongoName}`;
+const mongoUri = 'mongodb+srv://hdthinh1012:thinh1012@ecommerce-app.ivqyx.mongodb.net/ECommerceAppDB?retryWrites=true&w=majority';
+// const mongoUri = `mongodb://localhost:${mongoPort}/${mongoName}`;
+
 const mongoOptions = {};
 mongoose.connect(mongoUri, mongoOptions, (err) => {
     if (err) {
@@ -136,12 +137,12 @@ app.use("/chat", chatRouter);
 
 /********************************************************************************/
 
-// expressHttpServer.listen(serverPort, () => {
-//     console.log(`Http Server listening at http://localhost:${serverPort}`)
-// });
-
-
-expressHttpsServer.listen(serverPort, () => {
-    console.log(`Https Server listening at https://localhost:${serverPort}`)
+expressHttpServer.listen(serverPort, () => {
+    console.log(`Http Server listening at http://localhost:${serverPort}`)
 });
+
+
+// expressHttpsServer.listen(serverPort, () => {
+//     console.log(`Https Server listening at https://localhost:${serverPort}`)
+// });
 
