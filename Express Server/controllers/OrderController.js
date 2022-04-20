@@ -84,11 +84,11 @@ const createOrder = async (req, res) => {
         try {
             createOrderResponse = await axios.post(url, data, config);
         } catch (err) {
-            console.err("[OrderController.js] PayPal Create Order API Failed", err);
+            console.log("[OrderController.js] PayPal Create Order API Failed", err);
             res.status(409).send(JSON.stringify(err));
-        } 
+        }
         const userInfo = JSON.parse(req.sessionStore.sessions[req.sessionID])["userInfo"];
-        
+
         const newOrder = new Order({
             _id: createOrderResponse.data.id,
             user_id: userInfo["_id"],
@@ -128,7 +128,7 @@ const createOrder = async (req, res) => {
 const captureOrder = async (req, res) => {
     const { data } = req.body;
     // const { orderID, payerID, facilitatorAccessToken, paymentID, billingToken } = data;
-    
+
     const capturedOrder = await Order.find({ _id: data.orderID });
     const { hateoas_links } = capturedOrder[0];
     const approveOrderPaymentLink = hateoas_links.filter(link => link.rel === 'approve')[0];
@@ -146,7 +146,7 @@ const captureOrder = async (req, res) => {
          * purchase_units.payments.captures show list of captures of the purchase_units
          */
         // const { id, status, purchase_units, payer, links } = captureOrderResponse.data;
-        
+
         const capturedOrder = await Order.findOne({ _id: captureOrderResponse.data.id })
         capturedOrder.status = captureOrderResponse.data.status;
         capturedOrder.save((err) => {
