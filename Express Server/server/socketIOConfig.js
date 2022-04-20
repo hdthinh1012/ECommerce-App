@@ -41,6 +41,9 @@ module.exports = (io) => {
 
         console.log("SocketIO SessionStore", allSocketSession);
 
+        /**
+         * Get all ChatBox that the userId is contained
+         */
         let allRelatedChatBox = await ChatBox.find({ idlist: socket.handshake.auth.userId });
 
         socket.emit("current online users", {

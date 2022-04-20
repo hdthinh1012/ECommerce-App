@@ -17,23 +17,29 @@ const ChatPage = (props) => {
     const isAccountLoggedIn = accountUser["status"] === "member";
 
     const chatPageData = useSelector(state => state.chat);
-    const { onlineUsers, currentChatUser, allRelatedChatBox } = chatPageData;
+    const onlineUsers = useSelector(state => state.chat.onlineUsers);
+    const currentChatUser = useSelector(state => state.chat.currentChatUser);
+    const allRelatedChatBox = useSelector(state => state.chat.allRelatedChatBox);
 
-    const messageList = [
-        { id: "1", self: false, content: "Hello employee", time: "3:08PM 13th March 2022" },
-        { id: "2", self: true, content: "What category would you like to know about ?", time: "3:10PM 13th March 2022" },
-    ];
     let currentChatBox = null;
-    allRelatedChatBox.forEach(chatBoxItem => {
-        console.log("currentChatUser._id", currentChatUser);
-        console.log("accountUser._id", accountUser);
-        if (JSON.stringify(chatBoxItem.idlist) === JSON.stringify([currentChatUser._id, accountUser._id].sort())) {
-            currentChatBox = chatBoxItem;
-        }
-    })
+    /**
+     * Searching for current ChatBox by examine SockerOwner Id and CurrentChatUser Id
+     */
+    if (currentChatUser) {
+        allRelatedChatBox.forEach(chatBoxItem => {
+            console.log("currentChatUser._id", currentChatUser);
+            console.log("accountUser._id", accountUser);
+            if (JSON.stringify(chatBoxItem.idlist) === JSON.stringify([currentChatUser._id, accountUser._id].sort())) {
+                currentChatBox = chatBoxItem;
+            }
+        })
+    }
+    /**
+     * If the currentChatBox keep being null, the lower ChatBox will not be display
+     */
 
     /**
-     * - Trulu create new socket: socket = io(...)
+     * - Truly create new socket: socket = io(...)
      * - Dispatch 'initiateEventListeners' event
      */
 

@@ -26,11 +26,20 @@ const chatSlice = createSlice({
         onlineUsersChatSocketEvent(state, action) {
             console.log("onlineUsersChatSocketEvent reducer action", action);
         },
+
+        /**
+         * Must be called after initiateChatSocket action finished since socketOwnerId is necessary to 
+         * remove chatbox with one person only
+         */
         initiateCurrentOnlineUsers(state, action) {
             let onlineUsersList = action.payload.map(session => session.userInfo);
+
+            /**
+             * onlineUsersList not contain the socketOwnerId mean the user him/herself
+             * so when there are no other online users, error not reading currentChatUser._id throw
+             */
+
             onlineUsersList = onlineUsersList.filter(onlineUserItem => {
-                console.log("current(state).socketOwnerId", current(state).socketOwnerId);
-                console.log("onlineUserItem", onlineUserItem);
                 return onlineUserItem._id !== current(state).socketOwnerId;
             });
             state.onlineUsers = onlineUsersList;
@@ -39,7 +48,7 @@ const chatSlice = createSlice({
              * Test 
              */
 
-            state.currentChatUser = onlineUsersList[0];
+            // state.currentChatUser = onlineUsersList[0];
         },
         initiateAllRelatedChatBox(state, action) {
             const allRelatedChatBox = action.payload;
@@ -129,6 +138,9 @@ export default chatSlice.reducer;
  *      THUNK
  */
 
+/**
+ * Is dispatch in line 57 ChatPage.js
+ */
 export const initiateChatSocket = createAsyncThunk('chat/initiateChatSocket', async (socket, thunkAPI) => {
     const { uniqueSessionId, userId } = socket.socket.auth;
     try {
@@ -147,6 +159,10 @@ export const initiateChatSocket = createAsyncThunk('chat/initiateChatSocket', as
  * Since if register listener only after client event socket.on("connect")
  * means the events emitted from server in the first connection will be ignored
  * because no event listener registered yet, the client socket have just connected 
+ */
+
+/**
+ * Is dispatch in line 27 SocketClient.js
  */
 export const initiateEventListeners = createAsyncThunk('char/initiateEventListeners', async (socket, thunkAPI) => {
     console.log("Initiate Event Listener thunk called");

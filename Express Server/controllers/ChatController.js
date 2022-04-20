@@ -40,5 +40,5 @@ const createChatBox = async (idlist) => {
 }
 
 module.exports = {
-    chatSocket, getChatBox
+    chatSocket, getChatBox, createChatBox
 };

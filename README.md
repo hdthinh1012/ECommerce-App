@@ -66,6 +66,9 @@ Currently using simple role-based access control
 ..*Note*: Since the CORS settings is set to allow different origin only (HTTPS demand), so the recommend setting is running heroku client with localhost:4000 server.
 3. Import Init MongoDB Databases, for Cloud Mongo DB using [Atlas](https://www.mongodb.com/cloud)
 
+## Deployment Guide
+* Heroku Multi Monorepo Guide [here](https://blog.softup.co/how-to-deploy-a-monorepo-to-multiple-heroku-apps-using-github-actions/)
+
 ### PayPal Integration Guide
 Login to PayPal Developer Page and access to *https://developer.paypal.com/developer/applications* for getting Client-ID and Secret from the business account to get Access Token from oAuth 2.0 protocol.
 
