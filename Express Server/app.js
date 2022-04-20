@@ -5,7 +5,7 @@ const fs = require("fs");
 
 require("dotenv").config();
 const serverPort = process.env.PORT;
-const clientPort = process.env.clientPort;
+const clientPort = process.env.PORT;
 
 const app = express();
 app.use(function (req, res, next) { setTimeout(next, 1000) });
