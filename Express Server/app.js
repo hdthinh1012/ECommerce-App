@@ -5,14 +5,13 @@ const fs = require("fs");
 
 require("dotenv").config();
 const serverPort = process.env.PORT;
-const clientPort = process.env.PORT;
 
 const app = express();
 app.use(function (req, res, next) { setTimeout(next, 1000) });
 app.use(express.json());
 app.enable('trust proxy')
 
-const cors_origin_list = [`https://localhost:${clientPort}`, 'https://immense-scrubland-27295.herokuapp.com'];
+const cors_origin_list = [`https://localhost:3000`, 'https://immense-scrubland-27295.herokuapp.com'];
 console.log("cors_origin_list", cors_origin_list);
 
 // app.use(cors({
@@ -30,7 +29,7 @@ console.log("cors_origin_list", cors_origin_list);
 // }));
 
 app.use(cors({
-    origin: `https://localhost:${clientPort}`,
+    origin: `https://localhost:3000`,
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
     credentials: true
 }));
@@ -72,7 +71,7 @@ const expressHttpServer = require("http").createServer(app);
  */
 // const io = require("socket.io")(expressHttpsServer, {
 //     cors: {
-//         origin: `https://localhost:${clientPort}`,
+//         origin: `https://localhost:3000`,
 //         methods: ["GET", "POST"],
 //         credentials: true
 //     }
