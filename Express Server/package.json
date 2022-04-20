@@ -20,6 +20,6 @@
   "scripts": {
     "dev": "set NODE_ENV=dev&& set PORT=4000&& nodemon app.js",
     "start": "set NODE_ENV=production&& set PORT=4000&& nodemon app.js",
-    "deploy": "set NODE_ENV=production&& node app.js"
+    "deploy": "node app.js"
   }
 }
