@@ -12,7 +12,6 @@ app.use(express.json());
 app.enable('trust proxy')
 
 const cors_origin_list = [`https://localhost:3000`, 'https://immense-scrubland-27295.herokuapp.com'];
-console.log("cors_origin_list", cors_origin_list);
 
 // app.use(cors({
 //     origin: function (origin, callback) {
@@ -89,7 +88,7 @@ const expressHttpServer = require("http").createServer(app);
  */
 const io = require("socket.io")(expressHttpServer, {
     cors: {
-        origin: 'https://immense-scrubland-27295.herokuapp.com',
+        origin: `https://localhost:3000`,
         methods: ["GET", "POST"],
         credentials: true
     }
