@@ -2,9 +2,6 @@ const Order = require("../databases/Order");
 let axios = require('axios');
 require("dotenv").config();
 
-const PayPalClientId = process.env.PayPalClientId;
-const PayPalSecret = process.env.PayPalSecret;
-
 /**
  * Gaining authorization with Access Token to act on behalf of business PayPal Account
  *
@@ -17,8 +14,8 @@ const getAccessToken = async (req, res) => {
         params.append('grant_type', 'client_credentials');
         const config = {
             auth: {
-                username: PayPalClientId,
-                password: PayPalSecret,
+                username: "AUZcPEaGuyWYI45CPzAGPSMxJejKLPV7bx0rNz6EfIjhg1M07bdiCdUF7CepEa_Cs-MhRgnw8NqMxt28",
+                password: "EIqwkfu4sNtzm6-umbZTSzV-8rR6zkY5utKkta28PPmxrswBya9Exl5Oyo-0tG9IvSXcFBQRQW7XAqlv",
             },
         }
         const apiResponseData = await axios.post(url, params, config);
