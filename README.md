@@ -79,8 +79,8 @@ Application can integrated with one PayPal business account at a time only.
 * Is the ChatBox is created automatically when 2 new users first meet each other by online the same times. *Done*
 * Is the ChatBox is automatically add or remove when the opposite user move in / out of the ChatPage *Done*
 * Is the no ChatBox currently to choose (mean no other online users) is handle to not avoiding reading _id of null user when searching for currently-chosen-by-SocketOwner ChatBox *Done*
-* Timing of two dispatched action chat.initiateChatSocket and chat.initiateEventListener of the Socket causing occasion occuring ChatBox with the same player since the SocketOwnerId use to filter out the current user is not yet initialized
-Video demo of the issue: 
+* Timing of two dispatched action chat.initiateChatSocket and chat.initiateEventListener of the Socket causing occasion occuring ChatBox with the same player since the SocketOwnerId use to filter out the current user is not yet initialized  
+Video demo of the issue:  
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=sX3jX9Cm4-I
 " target="_blank"><img src="http://img.youtube.com/vi/sX3jX9Cm4-I/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
